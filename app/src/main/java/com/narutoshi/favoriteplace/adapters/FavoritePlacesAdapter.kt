@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.narutoshi.favoriteplace.R
 import com.narutoshi.favoriteplace.models.FavoritePlaceModel
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.item_favorite_place.view.*
 
 class FavoritePlacesAdapter(
     private val context: Context,
-    private val list: ArrayList<FavoritePlaceModel>
+    private val list: RealmResults<FavoritePlaceModel>
 ) : RecyclerView.Adapter<FavoritePlacesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,9 +26,9 @@ class FavoritePlacesAdapter(
         val model = list[position]
         val itemView = holder.itemView
 
-        itemView.tv_title.text = model.title
-        itemView.tv_date.text = model.date
-        itemView.tv_description.text = model.description
+        itemView.tv_title.text = model?.title
+        itemView.tv_date.text = model?.date
+        itemView.tv_description.text = model?.description
 
         // TODO リソースではなく、モデルにから取得したURIを元に画像を表示する
         itemView.iv_place.setImageResource(R.drawable.image_placeholder)
