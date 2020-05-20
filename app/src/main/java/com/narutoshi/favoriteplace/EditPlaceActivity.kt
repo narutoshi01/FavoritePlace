@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_edit_place.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
+
+    private var mode: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +24,8 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+
+        mode = intent.getStringExtra(IntentKey.MODE_IN_EDIT)
 
         setDefaultDate()
 
@@ -41,10 +46,55 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_register) {
-            // TODO DBに登録。新規 OR アップデート
+            recordToRealmDB(mode)
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun isTitleFilled(): Boolean {
+        val userInputTitle = et_title.text.toString()
+
+        if (userInputTitle.isBlank()) {
+            til_title.error = "Title is required"
+            return false
+        }
+
+        return true
+    }
+
+    private fun recordToRealmDB(mode: String?) {
+        if (!isTitleFilled()) {
+            return
+        }
+
+        when (mode) {
+            ModeOfEdit.NEW_ENTRY -> {
+                addNewFavoritePlace()
+            }
+
+            ModeOfEdit.EDIT -> {
+                // TODO アップデート
+            }
+        }
+    }
+
+    private fun addNewFavoritePlace() {
+        //  Todo 新規登録
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+
+        val newFavoritePlace = realm.createObject(FavoritePlaceModel::class.java)
+        newFavoritePlace.apply {
+            title = et_title.text.toString()
+            description = et_description.text.toString()
+            date = et_date.text.toString()
+            image = "" // TODO need image URI here
+        }
+
+        realm.commitTransaction()
+        realm.close()
+
     }
 
     private fun setDefaultDate() {
