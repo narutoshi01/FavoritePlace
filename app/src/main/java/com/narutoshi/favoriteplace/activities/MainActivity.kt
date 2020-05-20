@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             when(requestCode) {
                 RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE -> {
                     // TODO リストをリフレッシュする
+                    getFavoritePlacesListFromDB()
                 }
             }
         }

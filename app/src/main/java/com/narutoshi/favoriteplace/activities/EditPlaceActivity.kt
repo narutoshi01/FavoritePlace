@@ -1,5 +1,6 @@
 package com.narutoshi.favoriteplace.activities
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -81,6 +82,9 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
                 // TODO アップデート
             }
         }
+
+        setResult(Activity.RESULT_OK)
+        finish() // ActivityForResult　で来ているので返す
     }
 
     private fun addNewFavoritePlace() {
@@ -98,7 +102,6 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
         realm.commitTransaction()
         realm.close()
-
     }
 
     private fun setDefaultDate() {
