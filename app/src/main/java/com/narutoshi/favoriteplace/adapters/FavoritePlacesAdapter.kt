@@ -37,7 +37,7 @@ class FavoritePlacesAdapter(
 
         itemView.setOnClickListener {
             if(onClickListener != null) {
-                onClickListener!!.onCLick(position, model!!)
+                onClickListener!!.onCLick(model!!)
             }
         }
     }
@@ -51,7 +51,7 @@ class FavoritePlacesAdapter(
     }
 
     interface OnClickListener {
-        fun onCLick(position: Int, model: FavoritePlaceModel)
+        fun onCLick(model: FavoritePlaceModel)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)

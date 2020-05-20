@@ -97,7 +97,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             title = et_title.text.toString()
             description = et_description.text.toString()
             date = et_date.text.toString()
-            image = "" // TODO need image URI here
+            imageURI = "" // TODO need image URI here
         }
 
         realm.commitTransaction()

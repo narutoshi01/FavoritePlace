@@ -72,9 +72,16 @@ class MainActivity : AppCompatActivity() {
         rv_favorite_places_list.adapter = placeAdapter
 
         placeAdapter.setOnClickListener(object : FavoritePlacesAdapter.OnClickListener{
-            override fun onCLick(position: Int, model: FavoritePlaceModel) {
+            override fun onCLick(model: FavoritePlaceModel) {
                 // TODO DetailActivityへ行く
-                Toast.makeText(this@MainActivity, "$position", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@MainActivity, PlaceDetailActivity::class.java)
+                intent.apply {
+                    putExtra(IntentKey.TITLE, model.title)
+                    putExtra(IntentKey.DESCRIPTION, model.description)
+                    putExtra(IntentKey.DATE, model.date)
+                    putExtra(IntentKey.IMAGE_URI, model.imageURI)
+                }
+                startActivity(intent)
             }
         })
 
