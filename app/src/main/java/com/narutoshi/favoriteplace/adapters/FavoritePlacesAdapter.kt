@@ -15,6 +15,8 @@ class FavoritePlacesAdapter(
     private val list: RealmResults<FavoritePlaceModel>
 ) : RecyclerView.Adapter<FavoritePlacesAdapter.ViewHolder>() {
 
+    private var onClickListener: OnClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(context).inflate(R.layout.item_favorite_place, parent, false)
@@ -32,10 +34,24 @@ class FavoritePlacesAdapter(
 
         // TODO リソースではなく、モデルにから取得したURIを元に画像を表示する
         itemView.iv_place.setImageResource(R.drawable.image_placeholder)
+
+        itemView.setOnClickListener {
+            if(onClickListener != null) {
+                onClickListener!!.onCLick(position, model!!)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
+    interface OnClickListener {
+        fun onCLick(position: Int, model: FavoritePlaceModel)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)

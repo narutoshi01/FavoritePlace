@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.narutoshi.favoriteplace.IntentKey
 import com.narutoshi.favoriteplace.ModeOfEdit
@@ -41,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         if(resultCode == Activity.RESULT_OK) {
             when(requestCode) {
                 RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE -> {
-                    // TODO リストをリフレッシュする
                     getFavoritePlacesListFromDB()
                 }
             }
@@ -67,6 +67,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun setFavoritePlacesRecyclerView(results: RealmResults<FavoritePlaceModel>) {
         rv_favorite_places_list.layoutManager = LinearLayoutManager(this)
-        rv_favorite_places_list.adapter = FavoritePlacesAdapter(this@MainActivity, results)
+
+        val placeAdapter = FavoritePlacesAdapter(this, results)
+        rv_favorite_places_list.adapter = placeAdapter
+
+        placeAdapter.setOnClickListener(object : FavoritePlacesAdapter.OnClickListener{
+            override fun onCLick(position: Int, model: FavoritePlaceModel) {
+                // TODO DetailActivityへ行く
+                Toast.makeText(this@MainActivity, "$position", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
     }
 }
