@@ -1,4 +1,4 @@
-package com.narutoshi.favoriteplace
+package com.narutoshi.favoriteplace.models
 
 import io.realm.RealmObject
 

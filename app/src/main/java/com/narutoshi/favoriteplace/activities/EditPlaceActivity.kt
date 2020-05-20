@@ -1,4 +1,4 @@
-package com.narutoshi.favoriteplace
+package com.narutoshi.favoriteplace.activities
 
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.narutoshi.favoriteplace.models.FavoritePlaceModel
+import com.narutoshi.favoriteplace.IntentKey
+import com.narutoshi.favoriteplace.ModeOfEdit
+import com.narutoshi.favoriteplace.R
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_edit_place.*
 import java.text.SimpleDateFormat

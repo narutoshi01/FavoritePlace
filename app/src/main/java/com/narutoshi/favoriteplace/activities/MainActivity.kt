@@ -1,9 +1,13 @@
-package com.narutoshi.favoriteplace
+package com.narutoshi.favoriteplace.activities
 
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.narutoshi.favoriteplace.IntentKey
+import com.narutoshi.favoriteplace.ModeOfEdit
+import com.narutoshi.favoriteplace.R
+import com.narutoshi.favoriteplace.RequestCode
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -14,8 +18,13 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             val intent = Intent(this, EditPlaceActivity::class.java)
-            intent.putExtra(IntentKey.MODE_IN_EDIT, ModeOfEdit.NEW_ENTRY)
-            startActivityForResult(intent, RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE)
+            intent.putExtra(
+                IntentKey.MODE_IN_EDIT,
+                ModeOfEdit.NEW_ENTRY
+            )
+            startActivityForResult(intent,
+                RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE
+            )
         }
     }
 
