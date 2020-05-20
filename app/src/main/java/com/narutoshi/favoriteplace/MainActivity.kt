@@ -1,5 +1,6 @@
 package com.narutoshi.favoriteplace
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,5 +17,16 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE)
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            when(requestCode) {
+                RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE -> {
+                    // TODO リストをリフレッシュする
+                }
+            }
+        }
     }
 }
