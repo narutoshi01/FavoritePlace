@@ -35,7 +35,7 @@ class PlaceDetailActivity : AppCompatActivity() {
         title = intent.getStringExtra(IntentKey.TITLE)
         description = intent.getStringExtra(IntentKey.DESCRIPTION)
         date = intent.getStringExtra(IntentKey.DATE)
-        imageURI = intent.getStringExtra(IntentKey.IMAGE_URI)
+        imageURI = intent.getStringExtra(IntentKey.IMAGE_STRING)
 
         setViewItems()
     }
@@ -74,7 +74,7 @@ class PlaceDetailActivity : AppCompatActivity() {
                     title = data?.getStringExtra(IntentKey.TITLE)
                     description = data?.getStringExtra(IntentKey.DESCRIPTION)
                     date = data?.getStringExtra(IntentKey.DATE)
-                    imageURI = data?.getStringExtra(IntentKey.IMAGE_URI)
+                    imageURI = data?.getStringExtra(IntentKey.IMAGE_STRING)
 
                     setViewItems()
                 }
@@ -115,7 +115,7 @@ class PlaceDetailActivity : AppCompatActivity() {
             putExtra(IntentKey.TITLE, title)
             putExtra(IntentKey.DESCRIPTION, description)
             putExtra(IntentKey.DATE, date)
-            putExtra(IntentKey.IMAGE_URI, imageURI)
+            putExtra(IntentKey.IMAGE_STRING, imageURI)
             putExtra(IntentKey.MODE_IN_EDIT, ModeOfEdit.EDIT)
         }
         startActivityForResult(intent, RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE)

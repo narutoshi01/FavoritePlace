@@ -17,6 +17,7 @@ object IntentKey {
     const val TITLE = "TITLE"
     const val DESCRIPTION = "DESCRIPTION"
     const val DATE = "DATE"
-    const val IMAGE_URI = "IMAGE_URI"
-
+    const val IMAGE_STRING = "IMAGE_STRING"
 }
+
+const val IMAGE_DIRECTORY = "FavoritePlaceImages"

@@ -5,7 +5,10 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,13 +23,14 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.narutoshi.favoriteplace.*
 import com.narutoshi.favoriteplace.models.FavoritePlaceModel
-import com.narutoshi.favoriteplace.IntentKey
-import com.narutoshi.favoriteplace.ModeOfEdit
-import com.narutoshi.favoriteplace.R
-import com.narutoshi.favoriteplace.RequestCode
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_edit_place.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,7 +41,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
     private var title: String? = null
     private var description: String? = null
     private var date: String? = null
-    private var imageURI: String? = null
+    private var imageURI: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +63,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             title = intent.getStringExtra(IntentKey.TITLE)
             description = intent.getStringExtra(IntentKey.DESCRIPTION)
             date = intent.getStringExtra(IntentKey.DATE)
-            imageURI = intent.getStringExtra(IntentKey.IMAGE_URI)
+            imageURI = Uri.parse(intent.getStringExtra(IntentKey.IMAGE_STRING))
 
             et_title.setText(title)
             et_description.setText(description)
@@ -89,6 +93,41 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            when(requestCode) {
+                RequestCode.GALLERY_REQUEST_CODE -> {
+                    if (data != null) {
+                        val contentURI = data.data
+                        try {
+                            // Here this is used to get an bitmap from URI
+                            @Suppress("DEPRECATION")
+                            val selectedImageBitmap =
+                                MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
+
+                            imageURI = saveImageToInternalStorage(selectedImageBitmap)
+
+                            iv_place.setImageBitmap(selectedImageBitmap)
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                            Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+
+                RequestCode.CAMERA_REQUEST_CODE -> {
+                    val takenPhotoBitmap: Bitmap = data!!.extras!!.get("data") as Bitmap
+
+                    imageURI = saveImageToInternalStorage(takenPhotoBitmap)
+
+                    iv_place.setImageBitmap(takenPhotoBitmap)
+                }
+            }
+        }
     }
 
     private fun recordToRealmDB(mode: String?) {
@@ -129,7 +168,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             title = et_title.text.toString()
             description = et_description.text.toString()
             date = et_date.text.toString()
-            imageURI = "" // TODO need image URI here
+            imageString = "" // TODO need image URI here
         }
 
         realm.commitTransaction()
@@ -156,7 +195,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             title = newTitle
             description = newDescription
             date = newDate
-            imageURI = newImageURI
+            imageString = newImageURI
         }
         realm.commitTransaction()
         realm.close()
@@ -166,7 +205,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             putExtra(IntentKey.TITLE, newTitle)
             putExtra(IntentKey.DESCRIPTION, newDescription)
             putExtra(IntentKey.DATE, newDate)
-            putExtra(IntentKey.IMAGE_URI, newImageURI)
+            putExtra(IntentKey.IMAGE_STRING, newImageURI)
         }
 
         setResult(Activity.RESULT_OK, intent)
@@ -211,7 +250,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
         AlertDialog.Builder(this).apply {
             setTitle("Select Action")
-            setItems(dialogItems) { dialog, which ->
+            setItems(dialogItems) { _, which ->
                 when (which) {
                     0 -> {
                         choosePhotoFromGallery()
@@ -298,5 +337,23 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
             }.show()
+    }
+
+    private fun saveImageToInternalStorage(bitmap: Bitmap): Uri {
+        val wrapper = ContextWrapper(applicationContext)
+
+        var file = wrapper.getDir(IMAGE_DIRECTORY, Context.MODE_PRIVATE)
+        file = File(file, "${UUID.randomUUID()}.jpg")
+
+        try {
+            val stream: OutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            stream.flush()
+            stream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return Uri.parse(file.absolutePath)
     }
 }

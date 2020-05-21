@@ -7,5 +7,5 @@ open class FavoritePlaceModel : RealmObject() {
     var title: String = ""
     var description: String = ""
     var date: String = ""
-    var imageURI: String = "" // URI
+    var imageString: String = "" // URI format
 }

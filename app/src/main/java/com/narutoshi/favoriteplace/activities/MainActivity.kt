@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.narutoshi.favoriteplace.IntentKey
 import com.narutoshi.favoriteplace.ModeOfEdit
@@ -88,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     putExtra(IntentKey.TITLE, model.title)
                     putExtra(IntentKey.DESCRIPTION, model.description)
                     putExtra(IntentKey.DATE, model.date)
-                    putExtra(IntentKey.IMAGE_URI, model.imageURI)
+                    putExtra(IntentKey.IMAGE_STRING, model.imageString)
                 }
                 startActivityForResult(intent, RequestCode.PLACE_DETAIL_ACTIVITY_REQUEST_CODE)
             }
