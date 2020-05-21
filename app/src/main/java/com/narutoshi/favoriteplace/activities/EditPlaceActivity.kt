@@ -4,10 +4,13 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -215,8 +218,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
                     }
 
                     1 -> {
-                        // take photo from camera
-                        Toast.makeText(this@EditPlaceActivity, "Camera", Toast.LENGTH_SHORT).show()
+                        takePhotoFromCamera()
                     }
                 }
             }
@@ -230,7 +232,6 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         )
             .withListener(object : MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-
                     if (report!!.areAllPermissionsGranted()) {
                         val intent = Intent(
                             Intent.ACTION_PICK,
@@ -248,14 +249,54 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
                     permissions: MutableList<PermissionRequest>?,
                     token: PermissionToken?
                 ) {
-//                                    showRationalDialogForPermissions()
-                    Toast.makeText(
-                        this@EditPlaceActivity,
-                        "Rational Dialog",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showRationalDialogForPermissions()
+
                 }
             }).onSameThread()
             .check()
+    }
+
+    private fun takePhotoFromCamera() {
+        Dexter.withContext(this).withPermissions(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        )
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    if (report!!.areAllPermissionsGranted()) {
+                        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        startActivityForResult(intent, RequestCode.CAMERA_REQUEST_CODE)
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    showRationalDialogForPermissions()
+                }
+            }).onSameThread()
+            .check()
+    }
+
+    private fun showRationalDialogForPermissions() {
+        AlertDialog.Builder(this)
+            .setMessage("It Looks like you have turned off permissions required for this feature. It can be enabled under Application Settings")
+            .setPositiveButton(
+                "GO TO SETTINGS"
+            ) { _, _ ->
+                try {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    val uri = Uri.fromParts("package", packageName, null)
+                    intent.data = uri
+                    startActivity(intent)
+                } catch (e: ActivityNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }.show()
     }
 }
