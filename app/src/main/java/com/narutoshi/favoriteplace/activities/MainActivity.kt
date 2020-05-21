@@ -81,7 +81,6 @@ class MainActivity : AppCompatActivity() {
 
         placeAdapter.setOnClickListener(object : FavoritePlacesAdapter.OnClickListener{
             override fun onCLick(model: FavoritePlaceModel) {
-                // TODO DetailActivityへ行く
                 val intent = Intent(this@MainActivity, PlaceDetailActivity::class.java)
                 intent.apply {
                     putExtra(IntentKey.TITLE, model.title)

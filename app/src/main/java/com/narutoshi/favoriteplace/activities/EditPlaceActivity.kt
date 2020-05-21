@@ -1,6 +1,7 @@
 package com.narutoshi.favoriteplace.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -68,7 +69,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             et_title.setText(title)
             et_description.setText(description)
             et_date.setText(date)
-            // TODO インテントで渡されたuriを使って画像をセット
+            iv_place.setImageURI(imageURI)
         }
 
         et_date.setOnClickListener(this)
@@ -97,8 +98,8 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK) {
-            when(requestCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
                 RequestCode.GALLERY_REQUEST_CODE -> {
                     if (data != null) {
                         val contentURI = data.data
@@ -168,7 +169,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             title = et_title.text.toString()
             description = et_description.text.toString()
             date = et_date.text.toString()
-            imageString = "" // TODO need image URI here
+            imageString = imageURI.toString()
         }
 
         realm.commitTransaction()
@@ -182,7 +183,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         val newTitle = et_title.text.toString()
         val newDescription = et_description.text.toString()
         val newDate = et_date.text.toString()
-        val newImageURI = "" // TODO URIをセットする
+        val newImageString = imageURI.toString()
 
         val realm = Realm.getDefaultInstance()
         val selectedPlace = realm.where(FavoritePlaceModel::class.java)
@@ -195,7 +196,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             title = newTitle
             description = newDescription
             date = newDate
-            imageString = newImageURI
+            imageString = newImageString
         }
         realm.commitTransaction()
         realm.close()
@@ -205,13 +206,14 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             putExtra(IntentKey.TITLE, newTitle)
             putExtra(IntentKey.DESCRIPTION, newDescription)
             putExtra(IntentKey.DATE, newDate)
-            putExtra(IntentKey.IMAGE_STRING, newImageURI)
+            putExtra(IntentKey.IMAGE_STRING, newImageString)
         }
 
         setResult(Activity.RESULT_OK, intent)
         finish() // PlaceDetailActivityに戻る。アップデートされた内容も共に。
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun setDefaultDate() {
         val today = SimpleDateFormat("yyyy/MM/dd").format(Date())
         et_date.setText(today)
@@ -227,11 +229,12 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun onDateSet() {
         val calender = Calendar.getInstance()
         DatePickerDialog(
             this,
-            DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 calender.set(Calendar.YEAR, year)
                 calender.set(Calendar.MONTH, month)
                 calender.set(Calendar.DAY_OF_MONTH, dayOfMonth)

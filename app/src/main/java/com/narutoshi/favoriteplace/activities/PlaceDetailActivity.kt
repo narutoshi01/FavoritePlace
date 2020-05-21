@@ -3,6 +3,7 @@ package com.narutoshi.favoriteplace.activities
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -20,7 +21,7 @@ class PlaceDetailActivity : AppCompatActivity() {
     private var title: String? = null
     private var description: String? = null
     private var date: String? = null
-    private var imageURI: String? = null
+    private var imageURI: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,7 @@ class PlaceDetailActivity : AppCompatActivity() {
         title = intent.getStringExtra(IntentKey.TITLE)
         description = intent.getStringExtra(IntentKey.DESCRIPTION)
         date = intent.getStringExtra(IntentKey.DATE)
-        imageURI = intent.getStringExtra(IntentKey.IMAGE_STRING)
+        imageURI = Uri.parse(intent.getStringExtra(IntentKey.IMAGE_STRING))
 
         setViewItems()
     }
@@ -74,7 +75,7 @@ class PlaceDetailActivity : AppCompatActivity() {
                     title = data?.getStringExtra(IntentKey.TITLE)
                     description = data?.getStringExtra(IntentKey.DESCRIPTION)
                     date = data?.getStringExtra(IntentKey.DATE)
-                    imageURI = data?.getStringExtra(IntentKey.IMAGE_STRING)
+                    imageURI = Uri.parse(data?.getStringExtra(IntentKey.IMAGE_STRING))
 
                     setViewItems()
                 }
@@ -115,7 +116,7 @@ class PlaceDetailActivity : AppCompatActivity() {
             putExtra(IntentKey.TITLE, title)
             putExtra(IntentKey.DESCRIPTION, description)
             putExtra(IntentKey.DATE, date)
-            putExtra(IntentKey.IMAGE_STRING, imageURI)
+            putExtra(IntentKey.IMAGE_STRING, imageURI.toString())
             putExtra(IntentKey.MODE_IN_EDIT, ModeOfEdit.EDIT)
         }
         startActivityForResult(intent, RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE)
@@ -125,7 +126,7 @@ class PlaceDetailActivity : AppCompatActivity() {
         tv_title.text = title
         tv_description.text = description
         tv_date.text = date
-        // TODO image view に取得したURIを使って画像をセットする
+        iv_place.setImageURI(imageURI)
     }
 }
 

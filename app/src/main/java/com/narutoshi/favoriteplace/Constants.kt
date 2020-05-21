@@ -21,3 +21,9 @@ object IntentKey {
 }
 
 const val IMAGE_DIRECTORY = "FavoritePlaceImages"
+
+object DefaultImage {
+    const val STRING = "DEFAULT_IMAGE"
+    const val RESOURCE = R.drawable.image_placeholder
+}
+

@@ -1,10 +1,12 @@
 package com.narutoshi.favoriteplace.adapters
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.narutoshi.favoriteplace.DefaultImage
 import com.narutoshi.favoriteplace.R
 import com.narutoshi.favoriteplace.models.FavoritePlaceModel
 import io.realm.RealmResults
@@ -32,8 +34,12 @@ class FavoritePlacesAdapter(
         itemView.tv_date.text = model?.date
         itemView.tv_description.text = model?.description
 
-        // TODO リソースではなく、モデルにから取得したURIを元に画像を表示する
-        itemView.iv_place.setImageResource(R.drawable.image_placeholder)
+        if(model?.imageString == DefaultImage.STRING) {
+            itemView.iv_place.setImageResource(DefaultImage.RESOURCE)
+        } else {
+            val imageUri = Uri.parse(model?.imageString)
+            itemView.iv_place.setImageURI(imageUri)
+        }
 
         itemView.setOnClickListener {
             if(onClickListener != null) {
