@@ -120,7 +120,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
                             iv_place.setImageBitmap(selectedImageBitmap)
                         } catch (e: IOException) {
                             e.printStackTrace()
-                            Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT)
+                            Toast.makeText(this, getString(R.string.gallery_fail), Toast.LENGTH_SHORT)
                                 .show()
                         }
                     }
@@ -159,7 +159,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         val userInputTitle = et_title.text.toString()
 
         if (userInputTitle.isBlank()) {
-            til_title.error = "Title is required"
+            til_title.error = getString(R.string.title_is_required)
             return false
         }
 
@@ -255,7 +255,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun onImgViewClicked() {
-        val dialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
+        val dialogItems = arrayOf(getString(R.string.select_photo_from_gallery), getString(R.string.capture_photo_from_camera))
 
         AlertDialog.Builder(this).apply {
             setTitle("Select Action")
@@ -330,9 +330,9 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showRationalDialogForPermissions() {
         AlertDialog.Builder(this)
-            .setMessage("It Looks like you have turned off permissions required for this feature. It can be enabled under Application Settings")
+            .setMessage(getString(R.string.rational_dialog_message))
             .setPositiveButton(
-                "GO TO SETTINGS"
+                getString(R.string.go_to_settings)
             ) { _, _ ->
                 try {
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -343,7 +343,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
                     e.printStackTrace()
                 }
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }.show()
     }

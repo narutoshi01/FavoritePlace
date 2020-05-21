@@ -88,12 +88,12 @@ class PlaceDetailActivity : AppCompatActivity() {
 
     private fun onDeleteBtnClicked() {
         AlertDialog.Builder(this).apply {
-            setTitle("DELETE")
-            setMessage("are you sure to delete?")
-            setPositiveButton("Yes") { _, _ ->
+            setTitle(getString(R.string.dialog_delete_title))
+            setMessage(getString(R.string.dialog_delete_message))
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
                 deleteFromRealm()
             }
-            setNegativeButton("No") { _, _ -> }
+            setNegativeButton(getString(R.string.no)) { _, _ -> }
         }.show()
     }
 

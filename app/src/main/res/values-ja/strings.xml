@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Favorite Places</string>
+    <string name="add_your_favorite_place">場所を追加してください。</string>
+    <string name="title">名称</string>
+    <string name="description">詳細</string>
+    <string name="title_is_required">名称は必須項目です。</string>
+    <string name="select_photo_from_gallery">ギャラリーから写真を選ぶ</string>
+    <string name="capture_photo_from_camera">カメラで写真を撮る</string>
+    <string name="rational_dialog_message">設定から、権限を許可してください。</string>
+    <string name="go_to_settings">設定へ</string>
+    <string name="cancel">キャンセル</string>
+    <string name="gallery_fail">失敗しました。もう一度試してください。</string>
+    <string name="dialog_delete_title">削除</string>
+    <string name="dialog_delete_message">本当に削除しますか？</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+</resources>

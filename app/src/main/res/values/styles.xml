@@ -11,18 +11,4 @@
 
 
     </style>
-
-<!--&lt;!&ndash;  toolbar の背景色など  &ndash;&gt;-->
-<!--    <style name="CustomNoActionBarTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">-->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--&lt;!&ndash;        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>&ndash;&gt;-->
-<!--&lt;!&ndash;        <item name="colorAccent">@color/colorAccent</item>&ndash;&gt;-->
-<!--    </style>-->
-
-<!--&lt;!&ndash;  toolbar  &ndash;&gt;-->
-<!--    <style name="CustomToolbarStyle">-->
-<!--        <item name="android:textColorPrimary">#616161</item>-->
-<!--        <item name="android:colorControlNormal">#616161</item>-->
-<!--    </style>-->
-
 </resources>
