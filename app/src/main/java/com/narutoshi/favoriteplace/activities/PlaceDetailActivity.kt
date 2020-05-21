@@ -38,10 +38,7 @@ class PlaceDetailActivity : AppCompatActivity() {
         date = intent.getStringExtra(IntentKey.DATE)
         imageURI = intent.getStringExtra(IntentKey.IMAGE_URI)
 
-        tv_title.text = title
-        tv_description.text = description
-        tv_date.text = date
-        // TODO image view に取得したURIを使って画像をセットする
+        setViewContents()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -63,19 +60,27 @@ class PlaceDetailActivity : AppCompatActivity() {
             }
 
             R.id.action_edit -> {
-                val intent = Intent(this, EditPlaceActivity::class.java)
-                intent.apply {
-                    putExtra(IntentKey.TITLE, title)
-                    putExtra(IntentKey.DESCRIPTION, description)
-                    putExtra(IntentKey.DATE, date)
-                    putExtra(IntentKey.IMAGE_URI, imageURI)
-                    putExtra(IntentKey.MODE_IN_EDIT, ModeOfEdit.EDIT)
-                }
-                startActivityForResult(intent, RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE)
+                goToEditScreen()
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            when(requestCode) {
+                RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE -> {
+                    title = data?.getStringExtra(IntentKey.TITLE)
+                    description = data?.getStringExtra(IntentKey.DESCRIPTION)
+                    date = data?.getStringExtra(IntentKey.DATE)
+                    imageURI = data?.getStringExtra(IntentKey.IMAGE_URI)
+
+                    setViewContents()
+                }
+            }
+        }
     }
 
     private fun onDeleteBtnClicked() {
@@ -103,6 +108,25 @@ class PlaceDetailActivity : AppCompatActivity() {
 
         setResult(Activity.RESULT_OK)
         finish()
+    }
+
+    private fun goToEditScreen() {
+        val intent = Intent(this, EditPlaceActivity::class.java)
+        intent.apply {
+            putExtra(IntentKey.TITLE, title)
+            putExtra(IntentKey.DESCRIPTION, description)
+            putExtra(IntentKey.DATE, date)
+            putExtra(IntentKey.IMAGE_URI, imageURI)
+            putExtra(IntentKey.MODE_IN_EDIT, ModeOfEdit.EDIT)
+        }
+        startActivityForResult(intent, RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE)
+    }
+
+    private fun setViewContents() {
+        tv_title.text = title
+        tv_description.text = description
+        tv_date.text = date
+        // TODO image view に取得したURIを使って画像をセットする
     }
 }
 

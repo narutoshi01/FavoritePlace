@@ -37,6 +37,11 @@ class MainActivity : AppCompatActivity() {
         getFavoritePlacesListFromDB()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getFavoritePlacesListFromDB()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK) {

@@ -2,6 +2,7 @@ package com.narutoshi.favoriteplace.activities
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -37,6 +38,10 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
         mode = intent.getStringExtra(IntentKey.MODE_IN_EDIT)
 
+        if(mode == ModeOfEdit.NEW_ENTRY) {
+            setDefaultDate()
+        }
+
         if(mode == ModeOfEdit.EDIT) {
             title = intent.getStringExtra(IntentKey.TITLE)
             description = intent.getStringExtra(IntentKey.DESCRIPTION)
@@ -48,8 +53,6 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             et_date.setText(date)
             // TODO インテントで渡されたuriを使って画像をセット
         }
-
-        setDefaultDate()
 
         et_date.setOnClickListener(this)
     }
@@ -85,12 +88,11 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             ModeOfEdit.EDIT -> {
-                // TODO アップデート
+                updateExistingPlace()
             }
         }
 
-        setResult(Activity.RESULT_OK)
-        finish() // ActivityForResult　で来ているので返す
+
     }
 
     private fun isTitleFilled(): Boolean {
@@ -105,7 +107,6 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun addNewFavoritePlace() {
-        //  Todo 新規登録
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
 
@@ -119,6 +120,43 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
         realm.commitTransaction()
         realm.close()
+
+        setResult(Activity.RESULT_OK)
+        finish() // MainActivityへ返す
+    }
+
+    private fun updateExistingPlace() {
+        val newTitle = et_title.text.toString()
+        val newDescription = et_description.text.toString()
+        val newDate = et_date.text.toString()
+        val newImageURI = "" // TODO URIをセットする
+
+        val realm = Realm.getDefaultInstance()
+        val selectedPlace = realm.where(FavoritePlaceModel::class.java)
+            .equalTo(FavoritePlaceModel::title.name, title)
+            .equalTo(FavoritePlaceModel::description.name, description)
+            .equalTo(FavoritePlaceModel::date.name, date)
+            .findFirst()
+        realm.beginTransaction()
+        selectedPlace?.apply {
+            title = newTitle
+            description = newDescription
+            date = newDate
+            imageURI = newImageURI
+        }
+        realm.commitTransaction()
+        realm.close()
+
+        val intent = Intent(this, PlaceDetailActivity::class.java)
+        intent.apply {
+            putExtra(IntentKey.TITLE, newTitle)
+            putExtra(IntentKey.DESCRIPTION, newDescription)
+            putExtra(IntentKey.DATE, newDate)
+            putExtra(IntentKey.IMAGE_URI, newImageURI)
+        }
+
+        setResult(Activity.RESULT_OK, intent)
+        finish() // PlaceDetailActivityに戻る。アップデートされた内容も共に。
     }
 
     private fun setDefaultDate() {
