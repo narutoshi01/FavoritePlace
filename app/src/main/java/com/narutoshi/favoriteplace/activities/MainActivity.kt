@@ -44,6 +44,10 @@ class MainActivity : AppCompatActivity() {
                 RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE -> {
                     getFavoritePlacesListFromDB()
                 }
+
+                RequestCode.PLACE_DETAIL_ACTIVITY_REQUEST_CODE -> {
+                    getFavoritePlacesListFromDB()
+                }
             }
         }
     }
@@ -81,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                     putExtra(IntentKey.DATE, model.date)
                     putExtra(IntentKey.IMAGE_URI, model.imageURI)
                 }
-                startActivity(intent)
+                startActivityForResult(intent, RequestCode.PLACE_DETAIL_ACTIVITY_REQUEST_CODE)
             }
         })
 

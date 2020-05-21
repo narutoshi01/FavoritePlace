@@ -1,5 +1,7 @@
 package com.narutoshi.favoriteplace.activities
 
+import android.app.Activity
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -7,6 +9,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.narutoshi.favoriteplace.IntentKey
 import com.narutoshi.favoriteplace.R
+import com.narutoshi.favoriteplace.models.FavoritePlaceModel
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_place_detail.*
 
 class PlaceDetailActivity : AppCompatActivity() {
@@ -52,8 +56,7 @@ class PlaceDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_delete -> {
-                // TODO レコード削除。リスト一覧へ戻る
-                Toast.makeText(this, "action delete", Toast.LENGTH_SHORT).show()
+                onDeleteBtnClicked()
             }
 
             R.id.action_edit -> {
@@ -65,4 +68,32 @@ class PlaceDetailActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
+    private fun onDeleteBtnClicked() {
+        AlertDialog.Builder(this).apply {
+            setTitle("DELETE")
+            setMessage("are you sure to delete?")
+            setPositiveButton("Yes") {dialog, which ->
+                deleteFromRealm()
+            }
+            setNegativeButton("No") {dialog, which ->  }
+        }.show()
+    }
+
+    private fun deleteFromRealm() {
+        val realm = Realm.getDefaultInstance()
+        val selectedPlace = realm.where(FavoritePlaceModel::class.java)
+            .equalTo(FavoritePlaceModel::title.name, title)
+            .equalTo(FavoritePlaceModel::description.name, description)
+            .equalTo(FavoritePlaceModel::date.name, date)
+            .findFirst()
+        realm.beginTransaction()
+        selectedPlace?.deleteFromRealm()
+        realm.commitTransaction()
+        realm.close()
+
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
 }
+
