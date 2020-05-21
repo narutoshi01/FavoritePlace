@@ -64,12 +64,18 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             title = intent.getStringExtra(IntentKey.TITLE)
             description = intent.getStringExtra(IntentKey.DESCRIPTION)
             date = intent.getStringExtra(IntentKey.DATE)
-            imageURI = Uri.parse(intent.getStringExtra(IntentKey.IMAGE_STRING))
+
+            val passedImageString = intent.getStringExtra(IntentKey.IMAGE_STRING)
+            if(passedImageString != DefaultImage.STRING) {
+                iv_place.setImageURI(Uri.parse(passedImageString))
+            } else {
+                iv_place.setBackgroundResource(DefaultImage.RESOURCE)
+            }
 
             et_title.setText(title)
             et_description.setText(description)
             et_date.setText(date)
-            iv_place.setImageURI(imageURI)
+
         }
 
         et_date.setOnClickListener(this)
@@ -169,7 +175,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             title = et_title.text.toString()
             description = et_description.text.toString()
             date = et_date.text.toString()
-            imageString = imageURI.toString()
+            imageString = if(imageURI != null) imageURI.toString() else DefaultImage.STRING
         }
 
         realm.commitTransaction()
@@ -183,7 +189,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         val newTitle = et_title.text.toString()
         val newDescription = et_description.text.toString()
         val newDate = et_date.text.toString()
-        val newImageString = imageURI.toString()
+        val newImageString = if(imageURI != null) imageURI.toString() else DefaultImage.STRING
 
         val realm = Realm.getDefaultInstance()
         val selectedPlace = realm.where(FavoritePlaceModel::class.java)

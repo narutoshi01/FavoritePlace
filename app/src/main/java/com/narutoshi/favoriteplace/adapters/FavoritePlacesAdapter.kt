@@ -34,11 +34,11 @@ class FavoritePlacesAdapter(
         itemView.tv_date.text = model?.date
         itemView.tv_description.text = model?.description
 
-        if(model?.imageString == DefaultImage.STRING) {
-            itemView.iv_place.setImageResource(DefaultImage.RESOURCE)
-        } else {
+        if(model?.imageString != DefaultImage.STRING) {
             val imageUri = Uri.parse(model?.imageString)
             itemView.iv_place.setImageURI(imageUri)
+        } else {
+            itemView.iv_place.setImageResource(DefaultImage.RESOURCE)
         }
 
         itemView.setOnClickListener {
