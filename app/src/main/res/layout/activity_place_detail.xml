@@ -10,9 +10,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/toolbarBackground"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/CustomToolbarStyle"
+        android:theme="@style/AppTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,16 +40,20 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    tools:text="Title"
-                    android:layout_weight="1" />
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="6"
+                    android:textColor="@color/titleTextColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Title" />
 
                 <TextView
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|right"
                     tools:text="2020/05/21" />
             </LinearLayout>
 
@@ -58,8 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:maxHeight="200dp"
-                tools:text="This is a description" />
+                tools:text="gjalsglsaflsa;lfk;ldfk;dlsfklsdf;ldsal;fksadfjkldsjfklsdajfklsjdaflsafskdafjkldsajfkldsajfkljdsaklfjds" />
 
             <ImageView
                 android:id="@+id/iv_place"

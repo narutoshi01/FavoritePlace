@@ -1,24 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColorSecondary">#616161</item>
+
+
     </style>
 
-<!--  toolbar の背景色など  -->
-    <style name="CustomNoActionBarTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
-    </style>
+<!--&lt;!&ndash;  toolbar の背景色など  &ndash;&gt;-->
+<!--    <style name="CustomNoActionBarTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">-->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--&lt;!&ndash;        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="colorAccent">@color/colorAccent</item>&ndash;&gt;-->
+<!--    </style>-->
 
-<!--  toolbarのオプションメニュー（右側に表示されるdeleteなどのアイコン）  -->
-    <style name="CustomToolbarStyle">
-        <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="android:colorControlNormal">#FFFFFF</item>
-    </style>
+<!--&lt;!&ndash;  toolbar  &ndash;&gt;-->
+<!--    <style name="CustomToolbarStyle">-->
+<!--        <item name="android:textColorPrimary">#616161</item>-->
+<!--        <item name="android:colorControlNormal">#616161</item>-->
+<!--    </style>-->
 
 </resources>
