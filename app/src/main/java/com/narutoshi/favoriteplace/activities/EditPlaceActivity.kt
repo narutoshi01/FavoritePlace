@@ -20,6 +20,11 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
     private var mode: String? = null
 
+    private var title: String? = null
+    private var description: String? = null
+    private var date: String? = null
+    private var imageURI: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_place)
@@ -31,6 +36,18 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         mode = intent.getStringExtra(IntentKey.MODE_IN_EDIT)
+
+        if(mode == ModeOfEdit.EDIT) {
+            title = intent.getStringExtra(IntentKey.TITLE)
+            description = intent.getStringExtra(IntentKey.DESCRIPTION)
+            date = intent.getStringExtra(IntentKey.DATE)
+            imageURI = intent.getStringExtra(IntentKey.IMAGE_URI)
+
+            et_title.setText(title)
+            et_description.setText(description)
+            et_date.setText(date)
+            // TODO インテントで渡されたuriを使って画像をセット
+        }
 
         setDefaultDate()
 
@@ -57,17 +74,6 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun isTitleFilled(): Boolean {
-        val userInputTitle = et_title.text.toString()
-
-        if (userInputTitle.isBlank()) {
-            til_title.error = "Title is required"
-            return false
-        }
-
-        return true
-    }
-
     private fun recordToRealmDB(mode: String?) {
         if (!isTitleFilled()) {
             return
@@ -85,6 +91,17 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
         setResult(Activity.RESULT_OK)
         finish() // ActivityForResult　で来ているので返す
+    }
+
+    private fun isTitleFilled(): Boolean {
+        val userInputTitle = et_title.text.toString()
+
+        if (userInputTitle.isBlank()) {
+            til_title.error = "Title is required"
+            return false
+        }
+
+        return true
     }
 
     private fun addNewFavoritePlace() {

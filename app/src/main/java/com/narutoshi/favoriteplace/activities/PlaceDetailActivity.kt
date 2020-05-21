@@ -2,13 +2,16 @@ package com.narutoshi.favoriteplace.activities
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.narutoshi.favoriteplace.IntentKey
+import com.narutoshi.favoriteplace.ModeOfEdit
 import com.narutoshi.favoriteplace.R
+import com.narutoshi.favoriteplace.RequestCode
 import com.narutoshi.favoriteplace.models.FavoritePlaceModel
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_place_detail.*
@@ -60,9 +63,15 @@ class PlaceDetailActivity : AppCompatActivity() {
             }
 
             R.id.action_edit -> {
-                // TODO EditActivityへ。modeはEditで。インテントで情報渡す
-                Toast.makeText(this, "action edit", Toast.LENGTH_SHORT).show()
-
+                val intent = Intent(this, EditPlaceActivity::class.java)
+                intent.apply {
+                    putExtra(IntentKey.TITLE, title)
+                    putExtra(IntentKey.DESCRIPTION, description)
+                    putExtra(IntentKey.DATE, date)
+                    putExtra(IntentKey.IMAGE_URI, imageURI)
+                    putExtra(IntentKey.MODE_IN_EDIT, ModeOfEdit.EDIT)
+                }
+                startActivityForResult(intent, RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE)
             }
         }
 
@@ -73,10 +82,10 @@ class PlaceDetailActivity : AppCompatActivity() {
         AlertDialog.Builder(this).apply {
             setTitle("DELETE")
             setMessage("are you sure to delete?")
-            setPositiveButton("Yes") {dialog, which ->
+            setPositiveButton("Yes") { _, _ ->
                 deleteFromRealm()
             }
-            setNegativeButton("No") {dialog, which ->  }
+            setNegativeButton("No") { _, _ ->  }
         }.show()
     }
 
