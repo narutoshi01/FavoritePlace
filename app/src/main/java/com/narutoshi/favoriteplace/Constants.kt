@@ -3,6 +3,8 @@ package com.narutoshi.favoriteplace
 object RequestCode {
     const val EDIT_PLACE_ACTIVITY_REQUEST_CODE = 1
     const val PLACE_DETAIL_ACTIVITY_REQUEST_CODE = 2
+    const val GALLERY_REQUEST_CODE = 3
+    const val CAMERA_REQUEST_CODE = 4
 }
 
 object ModeOfEdit {

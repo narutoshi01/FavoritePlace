@@ -1,19 +1,27 @@
 package com.narutoshi.favoriteplace.activities
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.narutoshi.favoriteplace.models.FavoritePlaceModel
 import com.narutoshi.favoriteplace.IntentKey
 import com.narutoshi.favoriteplace.ModeOfEdit
 import com.narutoshi.favoriteplace.R
+import com.narutoshi.favoriteplace.RequestCode
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_edit_place.*
 import java.text.SimpleDateFormat
@@ -40,11 +48,11 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
         mode = intent.getStringExtra(IntentKey.MODE_IN_EDIT)
 
-        if(mode == ModeOfEdit.NEW_ENTRY) {
+        if (mode == ModeOfEdit.NEW_ENTRY) {
             setDefaultDate()
         }
 
-        if(mode == ModeOfEdit.EDIT) {
+        if (mode == ModeOfEdit.EDIT) {
             title = intent.getStringExtra(IntentKey.TITLE)
             description = intent.getStringExtra(IntentKey.DESCRIPTION)
             date = intent.getStringExtra(IntentKey.DATE)
@@ -200,11 +208,10 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
         AlertDialog.Builder(this).apply {
             setTitle("Select Action")
-            setItems(dialogItems) {dialog, which ->
-                when(which) {
+            setItems(dialogItems) { dialog, which ->
+                when (which) {
                     0 -> {
-                        // choose photo from gallery
-                        Toast.makeText(this@EditPlaceActivity, "Gallery", Toast.LENGTH_SHORT).show()
+                        choosePhotoFromGallery()
                     }
 
                     1 -> {
@@ -214,5 +221,41 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }.show()
+    }
+
+    private fun choosePhotoFromGallery() {
+        Dexter.withContext(this@EditPlaceActivity).withPermissions(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+
+                    if (report!!.areAllPermissionsGranted()) {
+                        val intent = Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
+
+                        startActivityForResult(
+                            intent,
+                            RequestCode.GALLERY_REQUEST_CODE
+                        )
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+//                                    showRationalDialogForPermissions()
+                    Toast.makeText(
+                        this@EditPlaceActivity,
+                        "Rational Dialog",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }).onSameThread()
+            .check()
     }
 }
