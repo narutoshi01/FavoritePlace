@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.narutoshi.favoriteplace.IntentKey
 import com.narutoshi.favoriteplace.ModeOfEdit
 import com.narutoshi.favoriteplace.R
@@ -38,7 +37,7 @@ class PlaceDetailActivity : AppCompatActivity() {
         date = intent.getStringExtra(IntentKey.DATE)
         imageURI = intent.getStringExtra(IntentKey.IMAGE_URI)
 
-        setViewContents()
+        setViewItems()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -77,7 +76,7 @@ class PlaceDetailActivity : AppCompatActivity() {
                     date = data?.getStringExtra(IntentKey.DATE)
                     imageURI = data?.getStringExtra(IntentKey.IMAGE_URI)
 
-                    setViewContents()
+                    setViewItems()
                 }
             }
         }
@@ -122,7 +121,7 @@ class PlaceDetailActivity : AppCompatActivity() {
         startActivityForResult(intent, RequestCode.EDIT_PLACE_ACTIVITY_REQUEST_CODE)
     }
 
-    private fun setViewContents() {
+    private fun setViewItems() {
         tv_title.text = title
         tv_description.text = description
         tv_date.text = date

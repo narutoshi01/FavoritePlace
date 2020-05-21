@@ -1,6 +1,7 @@
 package com.narutoshi.favoriteplace.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.narutoshi.favoriteplace.models.FavoritePlaceModel
 import com.narutoshi.favoriteplace.IntentKey
 import com.narutoshi.favoriteplace.ModeOfEdit
@@ -55,6 +57,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         et_date.setOnClickListener(this)
+        iv_place.setOnClickListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -167,6 +170,10 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.et_date -> onDateSet()
+
+            R.id.iv_place -> {
+                onImgViewClicked()
+            }
         }
     }
 
@@ -186,5 +193,26 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             calender.get(Calendar.MONTH),
             calender.get(Calendar.DAY_OF_MONTH)
         ).show()
+    }
+
+    private fun onImgViewClicked() {
+        val dialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
+
+        AlertDialog.Builder(this).apply {
+            setTitle("Select Action")
+            setItems(dialogItems) {dialog, which ->
+                when(which) {
+                    0 -> {
+                        // choose photo from gallery
+                        Toast.makeText(this@EditPlaceActivity, "Gallery", Toast.LENGTH_SHORT).show()
+                    }
+
+                    1 -> {
+                        // take photo from camera
+                        Toast.makeText(this@EditPlaceActivity, "Camera", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }.show()
     }
 }
