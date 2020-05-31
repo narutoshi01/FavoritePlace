@@ -6,9 +6,9 @@
     <string name="title">名称</string>
     <string name="description">詳細</string>
     <string name="title_is_required">名称は必須項目です。</string>
-    <string name="select_photo_from_gallery">ギャラリーから写真を選ぶ</string>
-    <string name="capture_photo_from_camera">カメラで写真を撮る</string>
-    <string name="rational_dialog_message">設定から、権限を許可してください。</string>
+    <string name="select_photo_from_gallery">写真を選ぶ</string>
+    <string name="capture_photo_from_camera">写真を撮る</string>
+    <string name="rational_dialog_message">設定から権限を許可してください。</string>
     <string name="go_to_settings">設定へ</string>
     <string name="cancel">キャンセル</string>
     <string name="gallery_fail">失敗しました。もう一度試してください。</string>

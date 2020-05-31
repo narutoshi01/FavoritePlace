@@ -4,8 +4,8 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="title_is_required">Title is required</string>
-    <string name="select_photo_from_gallery">Select photo from gallery</string>
-    <string name="capture_photo_from_camera">Capture photo from camera</string>
+    <string name="select_photo_from_gallery">Select photo</string>
+    <string name="capture_photo_from_camera">Capture photo</string>
     <string name="rational_dialog_message">It Looks like you have turned off permissions required for this feature. It can be enabled under Application Settings</string>
     <string name="go_to_settings">GO TO SETTINGS</string>
     <string name="cancel">Cancel</string>
