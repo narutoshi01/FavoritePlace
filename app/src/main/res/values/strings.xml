@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Favorite Places</string>
+    <string name="app_name">Place Memo</string>
     <string name="add_your_favorite_place">Add Your Favorite Place!</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
@@ -14,4 +14,5 @@
     <string name="dialog_delete_message">are you sure to delete?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="select_image_action">Select Image</string>
 </resources>

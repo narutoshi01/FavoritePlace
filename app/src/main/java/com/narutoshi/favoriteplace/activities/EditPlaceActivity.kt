@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -67,7 +68,8 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
 
             val passedImageString = intent.getStringExtra(IntentKey.IMAGE_STRING)
             if(passedImageString != DefaultImage.STRING) {
-                iv_place.setImageURI(Uri.parse(passedImageString))
+                imageURI = Uri.parse(passedImageString)
+                iv_place.setImageURI(imageURI)
             } else {
                 iv_place.setBackgroundResource(DefaultImage.RESOURCE)
             }
@@ -110,7 +112,6 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
                     if (data != null) {
                         val contentURI = data.data
                         try {
-                            // Here this is used to get an bitmap from URI
                             @Suppress("DEPRECATION")
                             val selectedImageBitmap =
                                 MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
@@ -189,6 +190,9 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         val newTitle = et_title.text.toString()
         val newDescription = et_description.text.toString()
         val newDate = et_date.text.toString()
+
+        Log.d("EditPlace", "$imageURI")
+
         val newImageString = if(imageURI != null) imageURI.toString() else DefaultImage.STRING
 
         val realm = Realm.getDefaultInstance()
@@ -198,7 +202,7 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             .equalTo(FavoritePlaceModel::date.name, date)
             .findFirst()
         realm.beginTransaction()
-        selectedPlace?.apply {
+        selectedPlace!!.apply {
             title = newTitle
             description = newDescription
             date = newDate
@@ -214,6 +218,8 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             putExtra(IntentKey.DATE, newDate)
             putExtra(IntentKey.IMAGE_STRING, newImageString)
         }
+
+        Log.d("EditPlace", "$newImageString") // DEFAULT_IMAGE
 
         setResult(Activity.RESULT_OK, intent)
         finish() // PlaceDetailActivityに戻る。アップデートされた内容も共に。

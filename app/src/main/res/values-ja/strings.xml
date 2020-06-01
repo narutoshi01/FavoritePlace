@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="app_name">Favorite Places</string>
-    <string name="add_your_favorite_place">場所を追加してください。</string>
+    <string name="app_name">場所メモ</string>
+    <string name="add_your_favorite_place">場所を追加しましょう</string>
     <string name="title">名称</string>
     <string name="description">詳細</string>
     <string name="title_is_required">名称は必須項目です。</string>
@@ -16,4 +16,5 @@
     <string name="dialog_delete_message">本当に削除しますか？</string>
     <string name="yes">はい</string>
     <string name="no">いいえ</string>
+    <string name="select_image_action">写真を追加</string>
 </resources>

@@ -2,7 +2,6 @@ package com.narutoshi.favoriteplace.activities
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ClipDescription
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -136,6 +135,7 @@ class PlaceDetailActivity : AppCompatActivity() {
         tv_description.text = favoritePlaceModel?.description
         tv_date.text = favoritePlaceModel?.date
 
+        Log.d("PlaceDetail", "${favoritePlaceModel?.imageString}") // DEFAULT_IMAGE
         if(favoritePlaceModel?.imageString != DefaultImage.STRING) {
             iv_place.setImageURI(Uri.parse(favoritePlaceModel?.imageString))
         } else {
