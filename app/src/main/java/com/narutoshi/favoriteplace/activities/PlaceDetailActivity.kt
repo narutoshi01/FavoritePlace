@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.narutoshi.favoriteplace.*
@@ -135,7 +134,6 @@ class PlaceDetailActivity : AppCompatActivity() {
         tv_description.text = favoritePlaceModel?.description
         tv_date.text = favoritePlaceModel?.date
 
-        Log.d("PlaceDetail", "${favoritePlaceModel?.imageString}") // DEFAULT_IMAGE
         if(favoritePlaceModel?.imageString != DefaultImage.STRING) {
             iv_place.setImageURI(Uri.parse(favoritePlaceModel?.imageString))
         } else {

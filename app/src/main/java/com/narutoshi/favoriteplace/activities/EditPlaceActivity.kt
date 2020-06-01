@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -190,9 +189,6 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
         val newTitle = et_title.text.toString()
         val newDescription = et_description.text.toString()
         val newDate = et_date.text.toString()
-
-        Log.d("EditPlace", "$imageURI")
-
         val newImageString = if(imageURI != null) imageURI.toString() else DefaultImage.STRING
 
         val realm = Realm.getDefaultInstance()
@@ -218,8 +214,6 @@ class EditPlaceActivity : AppCompatActivity(), View.OnClickListener {
             putExtra(IntentKey.DATE, newDate)
             putExtra(IntentKey.IMAGE_STRING, newImageString)
         }
-
-        Log.d("EditPlace", "$newImageString") // DEFAULT_IMAGE
 
         setResult(Activity.RESULT_OK, intent)
         finish() // PlaceDetailActivityに戻る。アップデートされた内容も共に。
